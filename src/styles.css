@@ -1,46 +1,8 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f0f0f0;
-  margin: 0;
-}
-
-.app {
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-
-.insurance-type button {
-  padding: 10px 15px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.dashboard {
-  background: white;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-}
-
-input {
-  padding: 8px;
-  margin-right: 10px;
-}
-
-button {
-  padding: 8px 15px;
-  cursor: pointer;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  margin: 10px 0;
-  padding: 10px;
-  background: #f4f4f4;
-  border-radius: 5px;
-}
+body { font-family: Arial, sans-serif; background: #f0f0f0; margin: 0; }
+.app, .dashboard { padding: 20px; max-width: 1000px; margin: auto; }
+input, select, textarea { padding: 8px; margin: 5px 0; width: 95%; }
+button { padding: 8px 15px; margin-top: 10px; cursor: pointer; }
+ul { list-style: none; padding: 0; }
+li { margin: 5px 0; padding: 10px; background: #fff; border-radius: 5px; }
+.login, .add-client, .quote-form, .driver-form, .vehicle-form, .claim-form { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; }
+h1,h2,h3,h4,h5 { margin: 10px 0; }
