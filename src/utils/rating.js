@@ -1,19 +1,11 @@
 import { carriers } from "../data/carriers";
 
-export function calculateQuotes(insuranceType, details) {
-  return carriers.map(carrier => {
-    let premium = carrier.baseRate[insuranceType];
-
-    if (insuranceType === "auto") {
-      if (details.age < 25) premium *= 1.2;
-      if (details.accidents > 0) premium *= 1 + 0.1 * details.accidents;
-    } else if (insuranceType === "home") {
-      if (details.homeValue > 500000) premium *= 1.2;
-    }
-
-    return {
-      carrier: carrier.name,
-      premium: premium.toFixed(2),
-    };
+export function calculateQuotes(type, data) {
+  return carriers.map(c => {
+    let premium = c.baseRate[type];
+    // Apply some adjustments based on accidents, homeValue, etc.
+    if(type === "auto" && data.accidents) premium *= 1 + 0.1 * data.accidents;
+    if(type === "home" && data.homeValue > 500000) premium *= 1.2;
+    return { carrier: c.name, premium: premium.toFixed(2) };
   });
 }
