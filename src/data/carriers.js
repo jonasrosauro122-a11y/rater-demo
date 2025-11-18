@@ -1,5 +1,14 @@
 export const carriers = [
-  { name: "Carrier 1", baseRate: { auto: 1200, home: 800 } },
-  { name: "Carrier 2", baseRate: { auto: 1150, home: 850 } },
-  { name: "Carrier 3", baseRate: { auto: 1250, home: 780 } },
+  {
+    name: "Carrier A",
+    baseRate: { auto: 500, home: 1000 }
+  },
+  {
+    name: "Carrier B",
+    baseRate: { auto: 550, home: 950 }
+  },
+  {
+    name: "Carrier C",
+    baseRate: { auto: 600, home: 1100 }
+  }
 ];
