@@ -8,11 +8,10 @@ export default function Login({ onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (password === "Lavaautomation2025!") {
       onLogin({ firstName, lastName });
     } else {
-      setError("Invalid password. Please try again.");
+      setError("Invalid password.");
     }
   };
 
