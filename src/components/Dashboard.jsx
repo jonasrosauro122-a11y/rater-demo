@@ -1,20 +1,17 @@
 import React, { useState } from "react";
-import QuoteForm from "./QuoteForm";
-import QuoteResult from "./QuoteResult";
+import ClientList from "./ClientList";
+import AddClient from "./AddClient";
 
-export default function Dashboard({ insuranceType }) {
-  const [quotes, setQuotes] = useState([]);
+export default function Dashboard({ user }) {
+  const [clients, setClients] = useState([]);
+
+  const addClient = (client) => setClients([...clients, client]);
 
   return (
     <div className="dashboard">
-      <h2>{insuranceType.toUpperCase()} Quotes</h2>
-
-      <QuoteForm
-        insuranceType={insuranceType}
-        setQuotes={setQuotes}
-      />
-
-      <QuoteResult quotes={quotes} />
+      <h1>Hi {user.firstName}!</h1>
+      <AddClient addClient={addClient} />
+      <ClientList clients={clients} />
     </div>
   );
 }
