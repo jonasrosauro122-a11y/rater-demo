@@ -1,9 +1,12 @@
 import React from "react";
 
-export default function CarrierCard({ carrier, premium }) {
+export default function QuoteResult({ quotes }) {
+  if (!quotes || quotes.length === 0) return null;
   return (
-    <li>
-      <strong>{carrier}</strong>: ${premium}
-    </li>
+    <ul>
+      {quotes.map((q, i) => (
+        <li key={i}><strong>{q.carrier}</strong>: ${q.premium}</li>
+      ))}
+    </ul>
   );
 }
