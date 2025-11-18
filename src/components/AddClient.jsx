@@ -11,23 +11,13 @@ export default function AddClient({ addClient }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="add-client">
       <h3>Add Client</h3>
-      <input
-        type="text"
-        placeholder="First Name"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Last Name"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        required
-      />
-      <button type="submit">Add Client</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)} required/>
+        <input placeholder="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)} required/>
+        <button type="submit">Add Client</button>
+      </form>
+    </div>
   );
 }
