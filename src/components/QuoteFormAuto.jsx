@@ -1,49 +1,79 @@
 import React, { useState } from "react";
+import DriverForm from "./DriverForm";
+import VehicleForm from "./VehicleForm";
+import ClaimForm from "./ClaimForm";
 import QuoteResult from "./QuoteResult";
 
 export default function QuoteFormAuto({ client }) {
-  const [formData, setFormData] = useState({
-    dob: "", ssn: "", address: "", phone: "", email: "",
-    vehicleYear: "", vehicleMake: "", vehicleModel: "",
-    accidents: 0, violations: 0,
-  });
+  const [drivers, setDrivers] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [claims, setClaims] = useState([]);
   const [quotes, setQuotes] = useState([]);
+  const [hasTeenDriver, setHasTeenDriver] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+  const handleDriverChange = (index, field, value) => {
+    const newDrivers = [...drivers];
+    newDrivers[index][field] = value;
+    setDrivers(newDrivers);
   };
+  const addDriver = () => setDrivers([...drivers, { name: "", dob: "", licenseNumber: "", licenseState: "" }]);
+  const removeDriver = (index) => setDrivers(drivers.filter((_, i) => i !== index));
+
+  const handleVehicleChange = (index, field, value) => {
+    const newVehicles = [...vehicles];
+    newVehicles[index][field] = value;
+    setVehicles(newVehicles);
+  };
+  const addVehicle = () => setVehicles([...vehicles, { year: "", make: "", model: "", vin: "", usage: "", garageAddress: "", mileage: "" }]);
+  const removeVehicle = (index) => setVehicles(vehicles.filter((_, i) => i !== index));
+
+  const handleClaimChange = (index, field, value) => {
+    const newClaims = [...claims];
+    newClaims[index][field] = value;
+    setClaims(newClaims);
+  };
+  const addClaim = () => setClaims([...claims, { date: "", type: "", amount: "" }]);
+  const removeClaim = (index) => setClaims(claims.filter((_, i) => i !== index));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const data = { drivers, vehicles, claims, hasTeenDriver, hasAuto:true };
     const res = await fetch("/.netlify/functions/quoteAuto", {
       method: "POST",
-      body: JSON.stringify(formData)
+      body: JSON.stringify(data)
     });
-    const data = await res.json();
-    setQuotes(data);
+    const result = await res.json();
+    setQuotes(result);
   };
 
   return (
-    <div>
-      <h4>AUTO Quote for {client.firstName}</h4>
+    <div className="quote-form">
+      <h3>AUTO Quote for {client.firstName}</h3>
       <form onSubmit={handleSubmit}>
-        <input type="date" name="dob" value={formData.dob} onChange={handleChange} placeholder="DOB" required/>
-        <input type="text" name="ssn" value={formData.ssn} onChange={handleChange} placeholder="SSN" required/>
-        <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" required/>
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" required/>
-        <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required/>
+        <button type="button" onClick={addDriver}>Add Driver</button>
+        {drivers.map((d,i)=>(
+          <DriverForm key={i} driver={d} index={i} handleDriverChange={handleDriverChange} removeDriver={removeDriver}/>
+        ))}
 
-        <input type="number" name="vehicleYear" value={formData.vehicleYear} onChange={handleChange} placeholder="Vehicle Year" required/>
-        <input type="text" name="vehicleMake" value={formData.vehicleMake} onChange={handleChange} placeholder="Make" required/>
-        <input type="text" name="vehicleModel" value={formData.vehicleModel} onChange={handleChange} placeholder="Model" required/>
+        <button type="button" onClick={addVehicle}>Add Vehicle</button>
+        {vehicles.map((v,i)=>(
+          <VehicleForm key={i} vehicle={v} index={i} handleVehicleChange={handleVehicleChange} removeVehicle={removeVehicle}/>
+        ))}
 
-        <input type="number" name="accidents" value={formData.accidents} onChange={handleChange} placeholder="Accidents" />
-        <input type="number" name="violations" value={formData.violations} onChange={handleChange} placeholder="Violations" />
+        <button type="button" onClick={addClaim}>Add Claim</button>
+        {claims.map((c,i)=>(
+          <ClaimForm key={i} claim={c} index={i} handleClaimChange={handleClaimChange} removeClaim={removeClaim}/>
+        ))}
+
+        <label>
+          <input type="checkbox" checked={hasTeenDriver} onChange={(e)=>setHasTeenDriver(e.target.checked)}/>
+          Teen Driver Present
+        </label>
 
         <button type="submit">Generate Quote</button>
       </form>
 
-      <QuoteResult quotes={quotes} />
+      <QuoteResult quotes={quotes}/>
     </div>
   );
 }
